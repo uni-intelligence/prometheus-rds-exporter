@@ -19,6 +19,10 @@ format:
 build:
 	CGO_ENABLED=0 go build -v -ldflags="-X '$(BUILD_INFO_PACKAGE_PATH).Version=development' -X '$(BUILD_INFO_PACKAGE_PATH).CommitSHA=$(GIT_COMMIT_SHA)' -X '$(BUILD_INFO_PACKAGE_PATH).Date=$(BUILD_DATE)'" -o $(BINARY)
 
+.PHONY: docker-build
+docker-build:
+	docker build -t prometheus-rds-exporter -f scripts/prometheus/Dockerfile .
+
 .PHONY: run
 run:
 	./$(BINARY) $(args)
